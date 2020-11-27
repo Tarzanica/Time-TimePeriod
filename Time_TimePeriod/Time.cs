@@ -36,9 +36,7 @@ namespace Time_TimePeriod
 
         public Time(string time)
         {
-            this.Hours = time;
-            this.Minutes = time;
-            this.Seconds = time;
+ 
         }
     }
 }
