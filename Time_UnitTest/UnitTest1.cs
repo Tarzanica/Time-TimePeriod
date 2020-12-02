@@ -235,7 +235,7 @@ namespace Time_UnitTest
         }
         #endregion
 
-        #region Plus operator and arithmetic operations
+        #region Arithmetic operations
 
         [DataTestMethod, TestCategory("Time arithmetic operations")]
         [DataRow((byte)12, (byte)30, (byte)30, (byte)14, (byte)40, (byte)40, (byte)3, (byte)11, (byte)10)]
@@ -248,6 +248,20 @@ namespace Time_UnitTest
             Time t3 = new Time(expectedH, expectedM, expectedS);
 
             Assert.AreEqual(t3, t1 + t2);
+        }
+
+        [DataTestMethod, TestCategory("Time arithmetic operations")]
+        [DataRow((byte)12, (byte)30, (byte)20, (byte)14, (byte)35, (byte)30, (byte)21, (byte)54, (byte)50)]
+        [DataRow((byte)2, (byte)35, (byte)30, (byte)14, (byte)10, (byte)10, (byte)12, (byte)25, (byte)20)]
+        [DataRow((byte)10, (byte)55, (byte)43, (byte)17, (byte)30, (byte)20, (byte)17, (byte)25, (byte)23)]
+        [DataRow((byte)2, (byte)5, (byte)30, (byte)14, (byte)10, (byte)10, (byte)11, (byte)55, (byte)20)]
+        public void TimeOne_Minus_TimeTwo_Operation(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2, byte expectedH, byte expectedM, byte expectedS)
+        {
+            Time t1 = new Time(h1, m1, s1);
+            Time t2 = new Time(h2, m2, s2);
+            Time t3 = new Time(expectedH, expectedM, expectedS);
+
+            Assert.AreEqual(t3, t1 - t2);
         }
         #endregion
     }

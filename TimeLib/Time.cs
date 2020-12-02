@@ -124,6 +124,46 @@ namespace Time_TimePeriod
             return new Time((byte)h, (byte)m, (byte)s);
         }
 
+        public static Time operator -(Time t1, Time t2)
+        {
+            int h, m, s;
+            if (t1.CompareTo(t2) >= t2.CompareTo(t1))
+            {
+                 h = t1.Hours - t2.Hours;
+                 m = t1.Minutes - t2.Minutes;
+                 s = t1.Seconds - t2.Seconds;
+            }
+            else
+            {
+                 h = t2.Hours - t1.Hours;
+                 m = t2.Minutes - t1.Minutes;
+                 s = t2.Seconds - t1.Seconds;
+
+                if (h > 0)
+                    h = 24 - h;
+
+                if (m > 0)
+                {
+                    m = 60 - m;
+                    h--;
+                }
+                else
+                    m = 0 - m;
+                      
+                if (s > 0)
+                {
+                    s = 60 - s;
+                    m--;
+                }
+                else
+                    s = 0 - s;
+
+                    
+
+            }
+                      
+            return new Time((byte)h, (byte)m, (byte)s);
+        }
 
         //public Time Plus(TimePeriod)
         //{
