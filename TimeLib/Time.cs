@@ -86,10 +86,45 @@ namespace Time_TimePeriod
         public static bool operator <=(Time t1, Time t2) => t1.CompareTo(t2) <= 0;
         public static bool operator >=(Time t1, Time t2) => t1.CompareTo(t2) >= 0;
 
-        //public static bool operator +(Time t1, Time t2)
-        //{
+        public static Time operator +(Time t1, Time t2)
+        {
+            int h = t1.Hours + t2.Hours;
+            int m = t1.Minutes + t2.Minutes;
+            int s = t1.Seconds + t2.Seconds;
 
-        //}
+            if (h > 24 || m > 60 || s > 60)
+            {
+                int hRest = h % 24; // add rest 
+                int mRest = m % 60;
+                int sRest = s % 60;
+
+                int hAdd = m / 60; // add another hour
+                int mAdd = s / 60;
+
+                if (hRest > 0 && hAdd > 0)
+                {
+                    h = 0;
+                    h += hRest;
+                }
+
+                if (mRest > 0 && mAdd > 0)
+                {
+                    h++;
+                    m = 0;
+                    m += mRest;
+                }
+
+                if (sRest > 0)
+                {
+                    m++;
+                    s = 0;
+                    s += sRest;
+                }
+            }
+            return new Time((byte)h, (byte)m, (byte)s);
+        }
+
+
         //public Time Plus(TimePeriod)
         //{
 

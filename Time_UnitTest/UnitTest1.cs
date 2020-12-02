@@ -92,7 +92,7 @@ namespace Time_UnitTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Constructor_3param_Default_ArgumentOutOfRangeException(byte h, byte m, byte s)
         {
-            Time t = new Time(h, m, s);
+            new Time(h, m, s);
         }
 
         public static IEnumerable<object[]> DataSetTime2param_ArgumentOutOfRangeEx => new List<object[]>
@@ -107,7 +107,7 @@ namespace Time_UnitTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Constructor_2param_ArgumentOutOfRangeException(byte h, byte m)
         {
-            Time t = new Time(h, m);
+            new Time(h, m);
         }
 
         public static IEnumerable<object[]> DataSetTime1param_ArgumentOutOfRangeEx => new List<object[]>
@@ -122,7 +122,7 @@ namespace Time_UnitTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Constructor_1param_ArgumentOutOfRangeException(byte h)
         {
-            Time t = new Time(h);
+            new Time(h);
         }
 
         [DataTestMethod, TestCategory("Constructors")]
@@ -130,7 +130,7 @@ namespace Time_UnitTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Constructor_1param_DefaultMeters_ArgumentOutOfRangeException(byte h)
         {
-            Time t = new Time(h);
+            new Time(h);
         }
 
 
@@ -232,6 +232,22 @@ namespace Time_UnitTest
             Time t2 = new Time(expectedH, expectedM, expectedS);
 
             Assert.AreEqual(expectedResult, t1 <= t2);
+        }
+        #endregion
+
+        #region Plus operator and arithmetic operations
+
+        [DataTestMethod, TestCategory("Time arithmetic operations")]
+        [DataRow((byte)12, (byte)30, (byte)30, (byte)14, (byte)40, (byte)40, (byte)3, (byte)11, (byte)10)]
+        [DataRow((byte)2, (byte)35, (byte)30, (byte)14, (byte)10, (byte)10, (byte)16, (byte)45, (byte)40)]
+        [DataRow((byte)10, (byte)55, (byte)43, (byte)17, (byte)30, (byte)20, (byte)4, (byte)26, (byte)3)]
+        public void TimeOne_Plus_TimeTwo_Operation(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2, byte expectedH, byte expectedM, byte expectedS)
+        {
+            Time t1 = new Time(h1, m1, s1);
+            Time t2 = new Time(h2, m2, s2);
+            Time t3 = new Time(expectedH, expectedM, expectedS);
+
+            Assert.AreEqual(t3, t1 + t2);
         }
         #endregion
     }
