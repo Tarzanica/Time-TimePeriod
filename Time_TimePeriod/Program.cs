@@ -7,15 +7,15 @@ namespace Time_TimePeriod
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine("-------------- Time list -------------");
             List<Time> times = new List<Time>();
             times.Add(new Time(8, 30));
             times.Add(new Time(11, 23, 6));
             times.Add(new Time(22, 46, 59));
             times.Add(new Time(1, 1, 1));
-            times.Add(new Time(13, 18));
+            times.Add(new Time(13, 18, 30));
             times.Add(new Time(2));
-            times.Add(new Time());
+            times.Add(new Time(2));
 
             foreach (var time in times)
             {
@@ -30,12 +30,34 @@ namespace Time_TimePeriod
             Time t2 = new Time(14, 10, 10);
             Console.WriteLine($"Time t2: {t2}");
 
-            Console.WriteLine($"Suma czasu t1 oraz t2: {t1 + t2}");
-            //Time t3 = new Time(10,72,90);
-            //Console.WriteLine($"Time: {t3}");
 
             Console.WriteLine(t1.Equals(t2));
 
+            Console.WriteLine("--------------------- Plus and minus operations ------------------");
+
+            Console.WriteLine($"Sum of t1 and t2: {t1 + t2}");
+            Console.WriteLine($"Subtraction of t1 and t2: {t1 - t2}");
+
+            Time t3 = new Time(11, 23, 6);
+            Time t4 = new Time(13, 18, 30);
+
+            Console.WriteLine($"Sum of t3 and t4: {t3 + t4}");
+            Console.WriteLine($"Subtraction of t3 and t4: {t3 - t4}");
+
+            Console.WriteLine($"Sum of t[1] and t[4]: {times[1] + times[4]}");
+            Console.WriteLine($"Subtraction of t[1] and t[4]: {times[1] - times[4]}");
+            Console.WriteLine($"Subtraction of t[5]={times[5]} and t[6]={times[6]}: {times[5] - times[6]}");
+
+            Console.WriteLine("-------------- TimePeriod --------------");
+
+            TimePeriod tP1 = new TimePeriod(new Time(12, 30), new Time(5, 30));
+            Console.WriteLine($"TimePeriod: {tP1}");
+            TimePeriod tP2 = new TimePeriod(new Time(5), new Time(14, 36, 08));
+            Console.WriteLine($"TimePeriod: {tP2}");
+
+            Console.WriteLine(tP1 + tP2);
+            Console.WriteLine(tP1 - tP2);
+            
         }
     }
 }

@@ -7,7 +7,7 @@ using Time_TimePeriod;
 namespace Time_UnitTest
 {
     [TestClass]
-    public class UnitTestsTimeConstructors
+    public class UnitTestsTimeandTimePeriodConstructors
     {
         private static byte defaultTime = 0;
 
@@ -18,15 +18,32 @@ namespace Time_UnitTest
             Assert.AreEqual(expectedS, t.Seconds);
         }
 
+        private void AssertTimePeriod(TimePeriod tP, long expectedH, long expectedM, long expectedS)
+        {
+            Assert.AreEqual(expectedH, tP.Hours);
+            Assert.AreEqual(expectedM, tP.Minutes);
+            Assert.AreEqual(expectedS, tP.Seconds);
+        }
+
         #region Constuctor tests
         [TestMethod, TestCategory("Constructors")]
-        public void Constructor_Default()
+        public void Constructor_Default_Time()
         {
             Time t = new Time();
 
             Assert.AreEqual(defaultTime, t.Hours);
             Assert.AreEqual(defaultTime, t.Minutes);
             Assert.AreEqual(defaultTime, t.Minutes);
+        }
+
+        [TestMethod, TestCategory("Constructors")]
+        public void Constructor_Default_TimePeriod()
+        {
+            TimePeriod tP = new TimePeriod();
+
+            Assert.AreEqual(defaultTime, tP.Hours);
+            Assert.AreEqual(defaultTime, tP.Minutes);
+            Assert.AreEqual(defaultTime, tP.Minutes);
         }
 
         [DataTestMethod, TestCategory("Constructors")]
@@ -42,6 +59,18 @@ namespace Time_UnitTest
         }
 
         [DataTestMethod, TestCategory("Constructors")]
+        [DataRow((long)100, (long)1, (long)1, (long)100, (long)1, (long)1)]
+        [DataRow((long)8, (long)23, (long)59, (long)8, (long)23, (long)59)]
+        [DataRow((long)12, (long)7, (long)9, (long)12, (long)7, (long)9)]
+        [DataRow((long)23, (long)40, (long)54, (long)23, (long)40, (long)54)]
+        public void Constructor_3param_TimePeriod(long h, long m, long s, long expectedH, long expectedM, long expectedS)
+        {
+            TimePeriod tP = new TimePeriod(h, m, s);
+
+            AssertTimePeriod(tP, expectedH, expectedM, expectedS);
+        }
+
+        [DataTestMethod, TestCategory("Constructors")]
         [DataRow((byte)1, (byte)1, (byte)1, (byte)1)]
         [DataRow((byte)8, (byte)23, (byte)8, (byte)23)]
         [DataRow((byte)12, (byte)7, (byte)12, (byte)7)]
@@ -51,6 +80,18 @@ namespace Time_UnitTest
             Time t = new Time(h, m);
 
             AssertTime(t, expectedH, expectedM, expectedS: 0);
+        }
+
+        [DataTestMethod, TestCategory("Constructors")]
+        [DataRow((long)100, (long)1, (long)100, (long)1)]
+        [DataRow((long)8, (long)23, (long)8, (long)23)]
+        [DataRow((long)12, (long)7, (long)12, (long)7)]
+        [DataRow((long)23, (long)40, (long)23, (long)40)]
+        public void Constructor_2param_TimePeriod(long h, long m, long expectedH, long expectedM)
+        {
+            TimePeriod tP = new TimePeriod(h, m);
+
+            AssertTimePeriod(tP, expectedH, expectedM, expectedS: 0);
         }
 
         [DataTestMethod, TestCategory("Constructors")]
@@ -66,16 +107,67 @@ namespace Time_UnitTest
         }
 
         [DataTestMethod, TestCategory("Constructors")]
+        [DataRow((long)100, (long)100)]
+        [DataRow((long)8, (long)8)]
+        [DataRow((long)12, (long)12)]
+        [DataRow((long)23, (long)23)]
+        public void Constructor_1param_TimePeriod(long h, long expectedH)
+        {
+            TimePeriod tP = new TimePeriod(h);
+
+            AssertTimePeriod(tP, expectedH, expectedM: 0, expectedS: 0);
+        }
+
+        [DataTestMethod, TestCategory("Constructors")]
+        [DataRow((byte)23, (byte)9, (byte)40, "23:09:40")]
+        [DataRow((byte)23, (byte)0, (byte)0, "23:00:00")]
+        [DataRow((byte)9, (byte)39, (byte)8, "09:39:08")]
+        public void Constructor_ToString(byte h, byte m, byte s, string time)
+        {
+            Time t = new Time(h, m, s);
+
+
+            Assert.AreEqual(time, t.ToString());
+
+        }
+
+        [DataTestMethod, TestCategory("Constructors")]
+        [DataRow((long)100, (long)1, (long)1, "100:01:01")]
+        [DataRow((long)8, (long)23, (long)59, "8:23:59")]
+        [DataRow((long)12, (long)7, (long)9, "12:07:09")]
+        [DataRow((long)23, (long)40, (long)54, "23:40:54")]
+        public void Constructor_ToString_TimePeriod(long  h, long m, long s, string timePeriod)
+        {
+            TimePeriod tP = new TimePeriod(h, m ,s);
+
+
+            Assert.AreEqual(timePeriod, tP.ToString());
+        }
+
+
+        [DataTestMethod, TestCategory("Constructors")]
         [DataRow("23:09:40", (byte)23, (byte)9, (byte)40)]
         [DataRow("23:00:00", (byte)23, (byte)0, (byte)0)]
         [DataRow("09:39:08", (byte)9, (byte)39, (byte)8)]
-        public void Constructor_ToString(string time, byte expectedH, byte expectedM, byte expectedS)
+        public void Constructor_StringParam(string time, byte expectedH, byte expectedM, byte expectedS)
         {
             Time t = new Time(time);
 
 
             AssertTime(t, expectedH, expectedM, expectedS);
 
+        }
+
+        [DataTestMethod, TestCategory("Constructors")]
+        [DataRow("100:01:01", (long)360000,(long)60, (long)1)]
+        [DataRow("08:23:59", (long)28800, (long)1380, (long)59)]
+        [DataRow("12:07:09", (long)43200, (long)420, (long)9)]
+        [DataRow("23:40:54",(long)82800, (long)2400, (long)54)]
+        public void Constructor_StringParam_TimePeriod(string timePeriod, long expectedH, long expectedM, long expectedS)
+        {
+            TimePeriod tP = new TimePeriod(timePeriod);
+
+            AssertTimePeriod(tP,expectedH, expectedM, expectedS);
         }
 
         // -----------
@@ -241,6 +333,7 @@ namespace Time_UnitTest
         [DataRow((byte)12, (byte)30, (byte)30, (byte)14, (byte)40, (byte)40, (byte)3, (byte)11, (byte)10)]
         [DataRow((byte)2, (byte)35, (byte)30, (byte)14, (byte)10, (byte)10, (byte)16, (byte)45, (byte)40)]
         [DataRow((byte)10, (byte)55, (byte)43, (byte)17, (byte)30, (byte)20, (byte)4, (byte)26, (byte)3)]
+        [DataRow((byte)11, (byte)23, (byte)6, (byte)13, (byte)18, (byte)30, (byte)0, (byte)41, (byte)36)]
         public void TimeOne_Plus_TimeTwo_Operation(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2, byte expectedH, byte expectedM, byte expectedS)
         {
             Time t1 = new Time(h1, m1, s1);
@@ -255,6 +348,7 @@ namespace Time_UnitTest
         [DataRow((byte)2, (byte)35, (byte)30, (byte)14, (byte)10, (byte)10, (byte)12, (byte)25, (byte)20)]
         [DataRow((byte)10, (byte)55, (byte)43, (byte)17, (byte)30, (byte)20, (byte)17, (byte)25, (byte)23)]
         [DataRow((byte)2, (byte)5, (byte)30, (byte)14, (byte)10, (byte)10, (byte)11, (byte)55, (byte)20)]
+        [DataRow((byte)11, (byte)23, (byte)6, (byte)13, (byte)18, (byte)30, (byte)22, (byte)4, (byte)36)]
         public void TimeOne_Minus_TimeTwo_Operation(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2, byte expectedH, byte expectedM, byte expectedS)
         {
             Time t1 = new Time(h1, m1, s1);
