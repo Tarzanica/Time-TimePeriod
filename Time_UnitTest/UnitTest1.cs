@@ -26,6 +26,7 @@ namespace Time_UnitTest
         }
 
         #region Constuctor tests
+
         [TestMethod, TestCategory("Constructors")]
         public void Constructor_Default_Time()
         {
@@ -159,10 +160,10 @@ namespace Time_UnitTest
         }
 
         [DataTestMethod, TestCategory("Constructors")]
-        [DataRow("100:01:01", (long)360000,(long)60, (long)1)]
-        [DataRow("08:23:59", (long)28800, (long)1380, (long)59)]
-        [DataRow("12:07:09", (long)43200, (long)420, (long)9)]
-        [DataRow("23:40:54",(long)82800, (long)2400, (long)54)]
+        [DataRow("100:01:01", (long)100,(long)1, (long)1)]
+        [DataRow("08:23:59", (long)8, (long)23, (long)59)]
+        [DataRow("12:07:09", (long)12, (long)7, (long)9)]
+        [DataRow("23:40:54",(long)23, (long)40, (long)54)]
         public void Constructor_StringParam_TimePeriod(string timePeriod, long expectedH, long expectedM, long expectedS)
         {
             TimePeriod tP = new TimePeriod(timePeriod);
@@ -231,12 +232,15 @@ namespace Time_UnitTest
         #region ToString tests
 
         [TestMethod, TestCategory("String representation")]
-        public void ToString()
+        public void TimeToString()
         {
             var t = new Time(4, 13);
+            var tP = new TimePeriod(4, 13);
             string expectedString = "04:13:00";
+            string expectedStringTP = "4:13:00";
 
             Assert.AreEqual(expectedString, t.ToString());
+            Assert.AreEqual(expectedStringTP, tP.ToString());
         }
 
         #endregion
@@ -259,103 +263,145 @@ namespace Time_UnitTest
         #region Operators overloading
 
         [DataTestMethod, TestCategory("Overloading")]
-        [DataRow((byte)4, (byte)23, (byte)4, (byte)4, (byte)23, (byte)4, true)]
-        [DataRow((byte)12, (byte)3, (byte)59, (byte)12, (byte)10, (byte)24, false)]
-        public void EqualsOperator(byte h, byte m, byte s, byte expectedH, byte expectedM, byte expectedS, bool expectedResult)
-        {
-            Time t1 = new Time(h, m, s);
-            Time t2 = new Time(expectedH, expectedM, expectedS);
 
-            Assert.AreEqual(expectedResult, t1 == t2);
+        public void EqualsOperator()
+        {
+            Time t1 = new Time(4, 23, 4);
+            Time t2 = new Time(4, 23, 4);
+            TimePeriod tP1 = new TimePeriod(7, 9, 23);
+            TimePeriod tP2 = new TimePeriod(7, 10, 23);
+
+            Assert.AreEqual(true, t1 == t2);
+            Assert.AreEqual(false, tP1 == tP2);
         }
 
         [DataTestMethod, TestCategory("Overloading")]
-        [DataRow((byte)4, (byte)23, (byte)2, (byte)4, (byte)23, (byte)4, true)]
-        [DataRow((byte)12, (byte)3, (byte)59, (byte)4, (byte)10, (byte)24, true)]
-        public void NotEqualOperator(byte h, byte m, byte s, byte expectedH, byte expectedM, byte expectedS, bool expectedResult)
+        public void NotEqualOperator()
         {
-            Time t1 = new Time(h, m, s);
-            Time t2 = new Time(expectedH, expectedM, expectedS);
+            Time t1 = new Time(4, 23, 2);
+            Time t2 = new Time(4, 23, 4);
+            TimePeriod tP1 = new TimePeriod(7, 9, 23);
+            TimePeriod tP2 = new TimePeriod(7, 9, 23);
 
-            Assert.AreEqual(expectedResult, t1 != t2);
+            Assert.AreEqual(true, t1 != t2);
+            Assert.AreEqual(false, tP1 != tP2);
         }
 
         [DataTestMethod, TestCategory("Overloading")]
-        [DataRow((byte)4, (byte)23, (byte)2, (byte)4, (byte)23, (byte)4, false)]
-        [DataRow((byte)12, (byte)3, (byte)59, (byte)4, (byte)10, (byte)24, true)]
-        public void MoreThanOperator(byte h, byte m, byte s, byte expectedH, byte expectedM, byte expectedS, bool expectedResult)
+        public void MoreThanOperator()
         {
-            Time t1 = new Time(h, m, s);
-            Time t2 = new Time(expectedH, expectedM, expectedS);
+            Time t1 = new Time(4, 23, 2);
+            Time t2 = new Time(4, 23, 4);
+            TimePeriod tP1 = new TimePeriod(7, 9, 23);
+            TimePeriod tP2 = new TimePeriod(7, 9, 23);
+            Assert.AreEqual(false, t1 > t2);
+            Assert.AreEqual(false, tP1 > tP2);
 
-            Assert.AreEqual(expectedResult, t1 > t2);
         }
 
         [DataTestMethod, TestCategory("Overloading")]
-        [DataRow((byte)4, (byte)23, (byte)2, (byte)4, (byte)23, (byte)4, true)]
-        [DataRow((byte)12, (byte)3, (byte)59, (byte)4, (byte)10, (byte)24, false)]
-        public void LessThanOperator(byte h, byte m, byte s, byte expectedH, byte expectedM, byte expectedS, bool expectedResult)
+        public void LessThanOperator()
         {
-            Time t1 = new Time(h, m, s);
-            Time t2 = new Time(expectedH, expectedM, expectedS);
-
-            Assert.AreEqual(expectedResult, t1 < t2);
+            Time t1 = new Time(4, 23, 2);
+            Time t2 = new Time(4, 23, 4);
+            TimePeriod tP1 = new TimePeriod(7, 9, 23);
+            TimePeriod tP2 = new TimePeriod(7, 9, 23);
+            Assert.AreEqual(true, t1 < t2);
+            Assert.AreEqual(false, tP1 < tP2);
         }
 
         [DataTestMethod, TestCategory("Overloading")]
-        [DataRow((byte)4, (byte)23, (byte)4, (byte)4, (byte)23, (byte)4, true)]
-        [DataRow((byte)12, (byte)3, (byte)59, (byte)4, (byte)10, (byte)24, true)]
-        [DataRow((byte)3, (byte)3, (byte)59, (byte)4, (byte)10, (byte)24, false)]
-        public void MoreOrEqualThanOperator(byte h, byte m, byte s, byte expectedH, byte expectedM, byte expectedS, bool expectedResult)
+        public void MoreOrEqualThanOperator()
         {
-            Time t1 = new Time(h, m, s);
-            Time t2 = new Time(expectedH, expectedM, expectedS);
+            Time t1 = new Time(4, 23, 4);
+            Time t2 = new Time(4, 23, 4);
+            Time t3 = new Time(12, 3, 59);
+            Time t4 = new Time(4, 10, 24);
 
-            Assert.AreEqual(expectedResult, t1 >= t2);
+            TimePeriod tP1 = new TimePeriod(7, 9, 23);
+            TimePeriod tP2 = new TimePeriod(7, 9, 23);
+            TimePeriod tP3 = new TimePeriod(3, 3, 59);
+            TimePeriod tP4 = new TimePeriod(17, 29);
+
+            Assert.AreEqual(true, t1 >= t2);
+            Assert.AreEqual(true, t3 >= t4);
+            Assert.AreEqual(true, tP1 >= tP2);
+            Assert.AreEqual(false, tP3 >= tP4);
         }
 
         [DataTestMethod, TestCategory("Overloading")]
-        [DataRow((byte)4, (byte)23, (byte)4, (byte)4, (byte)23, (byte)4, true)]
-        [DataRow((byte)12, (byte)3, (byte)59, (byte)4, (byte)10, (byte)24, false)]
-        [DataRow((byte)3, (byte)3, (byte)59, (byte)4, (byte)10, (byte)24, true)]
-        public void LessOrEqualThenOperator(byte h, byte m, byte s, byte expectedH, byte expectedM, byte expectedS, bool expectedResult)
-        {
-            Time t1 = new Time(h, m, s);
-            Time t2 = new Time(expectedH, expectedM, expectedS);
 
-            Assert.AreEqual(expectedResult, t1 <= t2);
+        public void LessOrEqualThenOperator()
+        {
+            Time t1 = new Time(4, 23, 4);
+            Time t2 = new Time(4, 23, 4);
+            Time t3 = new Time(12, 3, 59);
+            Time t4 = new Time(4, 10, 24);
+
+            TimePeriod tP1 = new TimePeriod(7, 9, 23);
+            TimePeriod tP2 = new TimePeriod(7, 9, 23);
+            TimePeriod tP3 = new TimePeriod(3, 3, 59);
+            TimePeriod tP4 = new TimePeriod(17, 29);
+
+            Assert.AreEqual(true, t1 <= t2);
+            Assert.AreEqual(false, t3 <= t4);
+            Assert.AreEqual(true, tP1 <= tP2);
+            Assert.AreEqual(true, tP3 <= tP4);
         }
         #endregion
 
         #region Arithmetic operations
 
         [DataTestMethod, TestCategory("Time arithmetic operations")]
-        [DataRow((byte)12, (byte)30, (byte)30, (byte)14, (byte)40, (byte)40, (byte)3, (byte)11, (byte)10)]
-        [DataRow((byte)2, (byte)35, (byte)30, (byte)14, (byte)10, (byte)10, (byte)16, (byte)45, (byte)40)]
-        [DataRow((byte)10, (byte)55, (byte)43, (byte)17, (byte)30, (byte)20, (byte)4, (byte)26, (byte)3)]
-        [DataRow((byte)11, (byte)23, (byte)6, (byte)13, (byte)18, (byte)30, (byte)0, (byte)41, (byte)36)]
-        public void TimeOne_Plus_TimeTwo_Operation(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2, byte expectedH, byte expectedM, byte expectedS)
+        public void TimeOne_Plus_TimeTwo_Operation()
         {
-            Time t1 = new Time(h1, m1, s1);
-            Time t2 = new Time(h2, m2, s2);
-            Time t3 = new Time(expectedH, expectedM, expectedS);
+            Time t1 = new Time(12, 30, 30);
+            Time t2 = new Time(14, 40, 40);
+            Time t3 = new Time(3, 11, 10);
+
+            Time t4 = new Time(11, 23, 6);
+            Time t5 = new Time(13, 18, 30);
+            Time t6 = new Time(0, 41, 36);
+
+            TimePeriod tP1 = new TimePeriod(10, 55, 43);
+            TimePeriod tP2 = new TimePeriod(17, 30, 20);
+            TimePeriod tP3 = new TimePeriod(28, 26, 3);
+
+            TimePeriod tP4 = new TimePeriod(2, 35, 30);
+            TimePeriod tP5 = new TimePeriod(14, 10, 10);
+            TimePeriod tP6 = new TimePeriod(16, 45, 40);
 
             Assert.AreEqual(t3, t1 + t2);
+            Assert.AreEqual(t6, t4 + t5);
+
+            Assert.AreEqual(tP3, tP1 + tP2);
+            Assert.AreEqual(tP6, tP4 + tP5);
         }
 
         [DataTestMethod, TestCategory("Time arithmetic operations")]
-        [DataRow((byte)12, (byte)30, (byte)20, (byte)14, (byte)35, (byte)30, (byte)21, (byte)54, (byte)50)]
-        [DataRow((byte)2, (byte)35, (byte)30, (byte)14, (byte)10, (byte)10, (byte)12, (byte)25, (byte)20)]
-        [DataRow((byte)10, (byte)55, (byte)43, (byte)17, (byte)30, (byte)20, (byte)17, (byte)25, (byte)23)]
-        [DataRow((byte)2, (byte)5, (byte)30, (byte)14, (byte)10, (byte)10, (byte)11, (byte)55, (byte)20)]
-        [DataRow((byte)11, (byte)23, (byte)6, (byte)13, (byte)18, (byte)30, (byte)22, (byte)4, (byte)36)]
-        public void TimeOne_Minus_TimeTwo_Operation(byte h1, byte m1, byte s1, byte h2, byte m2, byte s2, byte expectedH, byte expectedM, byte expectedS)
+        public void TimeOne_Minus_TimeTwo_Operation()
         {
-            Time t1 = new Time(h1, m1, s1);
-            Time t2 = new Time(h2, m2, s2);
-            Time t3 = new Time(expectedH, expectedM, expectedS);
+            Time t1 = new Time(12, 30, 20);
+            Time t2 = new Time(14, 35, 30);
+            Time t3 = new Time(21, 54, 50);
+
+            Time t4 = new Time(11, 23, 6);
+            Time t5 = new Time(13, 18, 30);
+            Time t6 = new Time(22, 4, 36);
+
+            TimePeriod tP1 = new TimePeriod(10, 55, 43);
+            TimePeriod tP2 = new TimePeriod(17, 30, 20);
+            TimePeriod tP3 = new TimePeriod(6, 34, 37);
+
+            TimePeriod tP4 = new TimePeriod(2, 35, 30);
+            TimePeriod tP5 = new TimePeriod(14, 40, 56);
+            TimePeriod tP6 = new TimePeriod(12, 5, 26);
 
             Assert.AreEqual(t3, t1 - t2);
+            Assert.AreEqual(t6, t4 - t5);
+
+            Assert.AreEqual(tP3, tP1 - tP2);
+            Assert.AreEqual(tP6, tP4 - tP5);
         }
         #endregion
     }
