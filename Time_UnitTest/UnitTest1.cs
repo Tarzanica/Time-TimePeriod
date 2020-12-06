@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Time_TimePeriod;
+using TimeLib;
 
-namespace Time_UnitTest
+namespace Time_TimePeriod_UnitTest
 {
     [TestClass]
     public class UnitTestsTimeandTimePeriodConstructors
