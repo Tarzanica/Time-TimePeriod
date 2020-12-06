@@ -404,5 +404,155 @@ namespace Time_UnitTest
             Assert.AreEqual(tP6, tP4 - tP5);
         }
         #endregion
+
+        #region Time and TimePeriod methods
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimePlusTimePeriod_1param()
+        {
+            Time t1 = new Time(11, 39, 8);
+            Time t2 = new Time(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            Time t3 = new Time(17, 29, 11);
+            Time t4 = new Time(5, 12, 56);
+            Assert.AreEqual(t3, t1.Plus(tP1));
+            Assert.AreEqual(t4, t2.Plus(tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimePlusTimePeriod_2param()
+        {
+            Time t1 = new Time(11, 39, 8);
+            Time t2 = new Time(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            Time t3 = new Time(17, 29, 11);
+            Time t4 = new Time(5, 12, 56);
+            Assert.AreEqual(t3, Time.Plus(t1, tP1));
+            Assert.AreEqual(t4, Time.Plus(t2, tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimeMinusTimePeriod_1param()
+        {
+            Time t1 = new Time(11, 39, 8);
+            Time t2 = new Time(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            Time t3 = new Time(5, 49, 5);
+            Time t4 = new Time(0, 50, 58);
+            Assert.AreEqual(t3, t1.Minus(tP1));
+            Assert.AreEqual(t4, t2.Minus(tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimeMinusTimePeriod_2param()
+        {
+            Time t1 = new Time(11, 39, 8);
+            Time t2 = new Time(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            Time t3 = new Time(5, 49, 5);
+            Time t4 = new Time(0, 50, 58);
+            Assert.AreEqual(t3, Time.Minus(t1, tP1));
+            Assert.AreEqual(t4, Time.Minus(t2, tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimePeriodPlusTimePeriod_1param()
+        {
+            TimePeriod t1 = new TimePeriod(11, 39, 8);
+            TimePeriod t2 = new TimePeriod(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            TimePeriod t3 = new TimePeriod(41, 29, 11);
+            TimePeriod t4 = new TimePeriod(53, 12, 56);
+            Assert.AreEqual(t3, t1.Plus(tP1));
+            Assert.AreEqual(t4, t2.Plus(tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimePeriodPlusTimePeriod_2param()
+        {
+
+            TimePeriod t1 = new TimePeriod(11, 39, 8);
+            TimePeriod t2 = new TimePeriod(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            TimePeriod t3 = new TimePeriod(41, 29, 11);
+            TimePeriod t4 = new TimePeriod(53, 12, 56);
+            Assert.AreEqual(t3, TimePeriod.Plus(t1, tP1));
+            Assert.AreEqual(t4, TimePeriod.Plus(t2, tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimePeriodMinusTimePeriod_1param()
+        {
+            TimePeriod t1 = new TimePeriod(11, 39, 8);
+            TimePeriod t2 = new TimePeriod(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            TimePeriod t3 = new TimePeriod(18, 10, 55);
+            TimePeriod t4 = new TimePeriod(47, 9, 2);
+            Assert.AreEqual(t3, t1.Minus(tP1));
+            Assert.AreEqual(t4, t2.Minus(tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimePeriodMinusTimePeriod_2param()
+        {
+
+            TimePeriod t1 = new TimePeriod(11, 39, 8);
+            TimePeriod t2 = new TimePeriod(3, 1, 57);
+
+            TimePeriod tP1 = new TimePeriod(29, 50, 3);
+            TimePeriod tP2 = new TimePeriod(50, 10, 59);
+
+            TimePeriod t3 = new TimePeriod(18, 10, 55);
+            TimePeriod t4 = new TimePeriod(47, 9, 2);
+            Assert.AreEqual(t3, TimePeriod.Minus(t1, tP1));
+            Assert.AreEqual(t4, TimePeriod.Minus(t2, tP2));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimeMultiply()
+        {
+            Time t1 = new Time(11, 39, 8);
+            Time t2 = new Time(3, 1, 57);
+
+            Time t3 = new Time(10, 57, 24);
+            Time t4 = new Time(15, 9, 45);
+            Assert.AreEqual(t3, t1.Multiply(3));
+            Assert.AreEqual(t4, t2.Multiply(5));
+        }
+
+        [DataTestMethod, TestCategory("Methods")]
+        public void TimePeriodMultiply()
+        {
+            TimePeriod t1 = new TimePeriod(11, 39, 8);
+            TimePeriod t2 = new TimePeriod(3, 1, 57);
+
+            TimePeriod t3 = new TimePeriod(23, 18, 16);
+            TimePeriod t4 = new TimePeriod(18, 11, 42);
+            Assert.AreEqual(t3, t1.Multiply(2));
+            Assert.AreEqual(t4, t2.Multiply(6));
+        }
+
+        #endregion
     }
 }
